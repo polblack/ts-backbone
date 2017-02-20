@@ -1,0 +1,28 @@
+{
+  "name": "modbuseditor",
+  "description": "Editor Modbus Javascrit",
+  "main": "modbuseditor/editor.ts",
+  "authors": [
+    "Pablo Salaberri P.S.P"
+  ],
+  "license": "ISC",
+  "keywords": [
+    "ingeteam",
+    "modbus"
+  ],
+  "homepage": "www.ingeteam.com",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^3.1.1"
+  },
+  "devDependencies": {
+    "backbone": "^1.3.3"
+  }
+}

@@ -1,0 +1,5 @@
+// tsc template file for: /var/www/html/ingeteam/modbuseditor/src/bblib/modules/menu/view/menuItemView.tplt.html
+import * as _ from "underscore"
+let tplt=`<li><a href="<%= route %>"><%= text %></a><%= childs %></li>`;
+let tpltf=function(){return _.template(tplt);}
+export {tplt as menuItemView }

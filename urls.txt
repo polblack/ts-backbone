@@ -1,0 +1,5 @@
+https://www.npmjs.com/package/typings
+https://mochajs.org
+https://www.npmjs.com/package/gulp-typescript
+http://jonnyreeves.co.uk/2015/hello-typescript-and-mocha/
+https://www.npmjs.com/package/typings

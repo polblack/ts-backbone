@@ -1,0 +1,33 @@
+{
+    "compilerOptions": {
+        
+       // "noImplicitAny": true,
+        "removeComments": true,
+        "preserveConstEnums": true,
+        //"outDir":"/temp",
+        "outFile": "release/bundle.js",
+        "sourceMap": true,
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata":true,
+        "suppressImplicitAnyIndexErrors": true,
+        "module": "amd",
+        "target": "es5"
+        
+    
+    },
+    "include": [
+        "typings/index.d.ts",
+        "bblib/index.d.ts",
+        "modbus/**/*.ts",
+        "bbeditor/**/*.ts",
+        "modbuseditor/*.ts"
+        
+        
+    ],
+    "exclude": [
+        "node_modules",
+        
+        "**/*.spec.ts"
+    ]
+     
+}
