@@ -2,7 +2,8 @@
 import { BModule } from "../bblib/modules/bbmodule/bbmodule";
 import * as menu from "../bblib/modules/menu/menumodule";
 import { index } from "./view/index.tplt";
-import * as $ from "jquery";
+// import * as $ from "jquery";
+// import * as _ from "underscore";
 import bblib from "../bblib/bblib";
 ///Start executing:
 
@@ -38,7 +39,7 @@ menu.MenuModule.addItem({
 
 console.log(menu.MenuModule.instance.Items);
 //Start 
-$('#main').html(index());
+$('#main').html(_.template(index)());
 
 let menustr = menu.MenuModule.render('#menu'); 
  
