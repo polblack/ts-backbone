@@ -17,10 +17,7 @@
     },
     "include": [
         "typings/index.d.ts",
-        "bblib/index.d.ts",
-        "modbus/**/*.ts",
-        "bbeditor/**/*.ts",
-        "modbuseditor/*.ts"
+        "src/**/*.ts"
         
         
     ],

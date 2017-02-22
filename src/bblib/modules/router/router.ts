@@ -49,22 +49,22 @@ export class RouterModule{
 
 
     //SetupRoutes
-    Add(routes:RouteInsert[])
+    public AddRouters(routes:RouteInsert[])
     {
         for(let route of routes)
         {
-             AddRouteToTree(route);
+             this.AddRoute(route);
         }
     }
     /**
      * adds a route to tree
      */
-    AddRouteToTree(route:RouteInsert){
+    public AddRoute(route:RouteInsert){
             let basep = route.path.split('/');// basep.pop();
             if(basep.length==1)
             {
                 //It is a base Item
-                this.Items.push({
+                this.RouteTreeItem.push({
                     basepath:route.path.split('/'),
                     icon:item.url,
                     module:item.module,
@@ -72,7 +72,7 @@ export class RouterModule{
                 });
             }
             else{
-                let parent = this.findParentNode(basep,this.Items);
+                let parent = this.findParentNode(basep,this.RouteTreeItem);
                 parent.childs.push({
                     basepath:item.path.split('/'),
                     module:item.module,
@@ -112,6 +112,76 @@ export class RouterModule{
         }
         return null;
     }
+
+    ///Navigation
+    /**
+     * @description Navigate to given route
+     */
+    public Navigate(route:string,options:any)
+    {
+        //Seek of last route and see if it has parents to load
+        //Params will be given by /(key):param
+        let routes = route.split('/'); 
+        this._navigate(routes,this.iRouteTree,options);
+
+    }
+   
+    /**
+     * @description Inner navigation
+     */
+    private _navigate(routes:string[],iroutes:RouteTreeItem[],options:any)
+    {
+        let base = routes.shift();
+        for(let iRItem of iroutes)
+        {
+            if(iRItem.basepath==base){
+                //This is the router item
+                if(typeof(iRItem.module)!='undefined')
+                {
+                    if(typeof(iRItem.module['Init'])!='undefined')
+                    {
+                        let params = this._routeParams(routes);
+                        if(params!==false){
+                            iRItem.module['Init']();
+                        }
+                        else{
+                            iRItem.module['Init'](params);
+                            return;
+                        }
+                    }
+                }
+                this._navigate(routes);//Ejecutamos módulo a módulo
+            }
+            //Seguimos hasta el siguiente módulo
+
+        }
+
+    }
+    /**
+     * @description: checks if routes array are params routes from first , 
+     * @return: if no returns false, else returns params array
+     */
+    private _routeParams(routes:string[])
+    {
+        if(/:/.test(routes[0]))
+        {
+            let params=[];
+            //it has, so lets get all params
+            for(let route of routes)
+            {
+                 if(/:/.test(route))
+                 {
+                     params.push(/:(.*)$/.exec(route)[1]);
+                 }
+            }
+
+        }
+
+        return false;
+    }
+
+
+
     /**
      * Gets routes for launching on a menu or button
      */

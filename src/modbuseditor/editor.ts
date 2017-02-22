@@ -5,6 +5,7 @@ import { index } from "./view/index.tplt";
 // import * as $ from "jquery";
 // import * as _ from "underscore";
 import bblib from "../bblib/bblib";
+import { RouterModule } from "../bblib/modules/router/router";
 ///Start executing:
 
 let OoMenuModule:menu.MenuModule = menu.MenuModule.GetInstance();
@@ -12,36 +13,50 @@ let BModule1 = new BModule("moduloe 1");
 let BModule2 = new BModule("moduloe 2");
 let BModule3 = new BModule("moduloe 3");
 //Add item 1
-menu.MenuModule.addItem({
+OoMenuModule.addItem({
     url:"home",
-    module:BModule1,
     icon:"",
     text:"home"
 });
-menu.MenuModule.addItem({
+OoMenuModule.addItem({
     url:"home/child",
-    module:BModule1,
     icon:"",
     text:"child"
 });
-menu.MenuModule.addItem({
+OoMenuModule.addItem({
     url:"home/child/tree",
-    module:BModule3,
     icon:"",
     text:"secondchild"
 });
-menu.MenuModule.addItem({
-    url:"BModule3",
-    module:BModule3,
-    icon:"",
-    text:"BModule3"
+ 
+let router:RouterModule = new RouterModule();
+///RouterModule
+//Add item 1
+/* path:string;
+    module:any;
+    ul:string; //User level!!!*/
+router.AddRoute({
+    path:"home",
+    module:BModule1,
+    ul:"basic"
 });
+router.AddRoute({
+    path:"home/child",
+    module:BModule2,
+    ul:"basic"
+});
+router.AddRoute({
+    path:"home/child/tree",
+    module:BModule3,
+    ul:"basic"
+});
+  
 
-console.log(menu.MenuModule.instance.Items);
+
 //Start 
 $('#main').html(_.template(index)());
 
-let menustr = menu.MenuModule.render('#menu'); 
+let menustr = OoMenuModule.render('#menu'); 
  
 $('#menu').html( menustr);
 bblib.messagebus;

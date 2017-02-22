@@ -5,11 +5,9 @@ import * as _ from "underscore";
 import { menu_view } from "./view/menu_view.tplt";
 import { submenuview } from "./view/submenuview.tplt";
 import { menuItemView } from "./view/menuItemView.tplt";
-import * as backbonemod  from "../bbmodule/bbmodule";
-import * as b from "../bbmodule/bmodule"; 
 import messagebus from "../messagebus/messagebus";
 
-
+import { RouterModule } from "../router/router";
  
 
 /*
@@ -19,7 +17,7 @@ import messagebus from "../messagebus/messagebus";
  
     export interface MenuItem{
         url:string;
-        module:backbonemod.BModule;
+     
         icon:string;
         text:string;
 
@@ -29,7 +27,7 @@ import messagebus from "../messagebus/messagebus";
         url:string;
         basepath:Array<string>;
         icon:string;
-        module:backbonemod.BModule;
+      
         text:string;
         childs:Array<InnerMenuItem>;
     }
@@ -39,6 +37,8 @@ import messagebus from "../messagebus/messagebus";
         public Items:Array<InnerMenuItem>;
         static instance:MenuModule;
         
+        mRouter:RouterModule;
+
         bRouter:any;
         public static GetInstance(){
             if(MenuModule.instance==null)
@@ -51,17 +51,17 @@ import messagebus from "../messagebus/messagebus";
         constructor()
         {
             this.Items = new Array<InnerMenuItem>();
-        
+             
         }
 
 
-        public static addItem(item:MenuItem)
+        public  addItem(item:MenuItem)
         {
             MenuModule.GetInstance()._addItem(item);
             
         }
 
-        public static render(selector:string)
+        public  render(selector:string)
         {
            return MenuModule.GetInstance()._render();
         }
@@ -106,7 +106,7 @@ import messagebus from "../messagebus/messagebus";
                     url:item.url,
                     basepath:item.url.split('/'),
                     icon:item.url,
-                    module:item.module,
+                    
                     text:item.text,
                     childs:new Array<InnerMenuItem>()
                 });
@@ -117,7 +117,7 @@ import messagebus from "../messagebus/messagebus";
                     url:item.url,
                     basepath:item.url.split('/'),
                     icon:item.url,
-                    module:item.module,
+                   
                     text:item.text,
                     childs:new Array<InnerMenuItem>()
                 });
