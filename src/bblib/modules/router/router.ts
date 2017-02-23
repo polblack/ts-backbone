@@ -64,19 +64,20 @@ export class RouterModule{
             if(basep.length==1)
             {
                 //It is a base Item
-                this.RouteTreeItem.push({
+                this.iRouteTree.push({
                     basepath:route.path.split('/'),
-                    icon:item.url,
-                    module:item.module,
-                    childs:new Array<RouteInsert>()
+                    module:route.module,
+                    childs:new Array<RouteTreeItem>(),
+                    ul : route.ul
                 });
             }
             else{
-                let parent = this.findParentNode(basep,this.RouteTreeItem);
+                let parent = this.findParentNode(basep,this.iRouteTree);
                 parent.childs.push({
-                    basepath:item.path.split('/'),
-                    module:item.module,
-                    childs:new Array<RouteInsert>()
+                    basepath:route.path.split('/'),
+                    module:route.module,
+                    childs:new Array<RouteTreeItem>(),
+                    ul:route.ul
                 });
             }
     }
@@ -105,7 +106,7 @@ export class RouterModule{
                     if(item.basepath.length == basepath.length-1) return item;
                     i++;
 
-                    let ret:InnerMenuItem = this._findParentNode(i,basepath,item.childs);
+                    let ret:RouteTreeItem = this._findParentNode(i,basepath,item.childs);
                     return ret;
                 }
                 
@@ -134,7 +135,7 @@ export class RouterModule{
         let base = routes.shift();
         for(let iRItem of iroutes)
         {
-            if(iRItem.basepath==base){
+            if(iRItem.basepath[0]==base){
                 //This is the router item
                 if(typeof(iRItem.module)!='undefined')
                 {
@@ -150,7 +151,7 @@ export class RouterModule{
                         }
                     }
                 }
-                this._navigate(routes);//Ejecutamos módulo a módulo
+                this._navigate(routes,iRItem.childs,options);//Ejecutamos módulo a módulo
             }
             //Seguimos hasta el siguiente módulo
 
@@ -203,9 +204,9 @@ export class RouterModule{
         let route:RouteInsert = _.find(this.iRoutes,function(r){return r.path==route.path;});
         if(route != undefined)
         {
-            if(typeof(route.component['Init'])!='undefined')
+            if(typeof(route.module['Init'])!='undefined')
             {
-                route.component['Init']();
+                route.module['Init']();
             }
         }
     }

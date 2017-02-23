@@ -6,7 +6,10 @@ import { index } from "./view/index.tplt";
 // import * as _ from "underscore";
 import bblib from "../bblib/bblib";
 import { RouterModule } from "../bblib/modules/router/router";
+import { TestModule } from "./test/testmodule";
 ///Start executing:
+ 
+let module = new TestModule(); 
 
 let OoMenuModule:menu.MenuModule = menu.MenuModule.GetInstance();
 let BModule1 = new BModule("moduloe 1");
@@ -24,7 +27,7 @@ OoMenuModule.addItem({
     text:"child"
 });
 OoMenuModule.addItem({
-    url:"home/child/tree",
+    url:"home/ole", 
     icon:"",
     text:"secondchild"
 });
@@ -46,18 +49,18 @@ router.AddRoute({
     ul:"basic"
 });
 router.AddRoute({
-    path:"home/child/tree",
+    path:"home/ole",
     module:BModule3,
     ul:"basic"
 });
   
-
+ 
 
 //Start 
-$('#main').html(_.template(index)());
+// $('#main').html(_.template(index)());
 
-let menustr = OoMenuModule.render('#menu'); 
+// let menustr = OoMenuModule.render('#menu'); 
  
-$('#menu').html( menustr);
-bblib.messagebus;
+// $('#menu').html( menustr);
+// bblib.messagebus;
 
