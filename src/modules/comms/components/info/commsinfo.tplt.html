@@ -1,0 +1,37 @@
+<% item = model.attributes %>
+<h1>Status</h1>
+    <div id="rcor">
+
+        <table cellpadding="2" border="0" class="table">
+        
+    <tr><td>Uptime: </td><td><b><%= item.Uptime %></b></td></tr>
+        <tr><td>FW Version: </td><td><b><%= item.Version %></b></td></tr>
+        <tr><td>Serial Number: </td><td><b><%= item.SerialNumber %></b></td></tr> 
+        <tr><td>VPN Connection: </td><td><b>
+        <% if(item.Connected) { %>
+                <span class="ok">Connected</span>
+                <% }else{ %>
+                <span class="nok tilt">Disconnected</span>
+                <% } %>  
+        </td></tr>
+        <% if((item.BrokerAddress != undefined) && (item.BrokerAddress.length != 0)) { %>
+            <tr><td>Broker Connection: <br><%= item.BrokerAddress %> </td><td><b>
+            <% if(item.BrokerConnected) { %>
+                <span class="ok">Connected</span>
+                <% }else{ %>
+                <span class="nok tilt">Disconnected</span>
+                <% } %>
+            </td></tr>			
+        <% } %>
+        <tr><td valign="top" >Local Date: </td><td width="250px"><b><div id="datecont"> <%= item.date %> </div></b><br/>
+                <% if(item.insync) { %>
+                <span class="ok">Synchronized</span>
+                <% }else{ %>
+                <span class="nok tilt">Not Synchronized</span>
+                <% } %>
+            </td><td valign="top"><input style="width:150px" id="setlocaldate" type="button" value="Set Local Date" class="button"/>
+            <tr><td style="height:10px"></td></tr>
+    <tr ><td valign="top">Timezone: </td><td><i><div id="timezonetext" style="height:200px;overflow:auto;" ></div></i></td><td valign="top"><input  style="width:150px" type="button" class="button" id="openchangetimezone" value="Change Timezone" /></td></tr>
+
+			 </table>
+				</div>

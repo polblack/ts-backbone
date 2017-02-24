@@ -1,0 +1,5 @@
+// tsc template file for: C:\ROOT\__Programacion\AAX_New\Git\fvwebclient\inverter\src\modules\main\view\main.tplt.html
+import * as _ from "underscore"
+let tplt=`<header class="app-header navbar"><button class="navbar-toggler mobile-sidebar-toggler hidden-lg-up" type="button">&#9776;</button> <a class="navbar-brand" href="#"></a><ul class="nav navbar-nav hidden-md-down"><li class="nav-item"><a class="nav-link navbar-toggler sidebar-toggler" href="#">&#9776;</a></li><mainmenu></mainmenu></ul></header><div class="app-body"><div class="sidebar"><nav class="sidebar-nav"><sidebarmenu></sidebarmenu></nav></div><!-- Main content --><main class="main"><!-- Breadcrumb --><ol class="breadcrumb"><breadcrumbs></breadcrumbs></ol><div class="container-fluid"><content><backbone-router></backbone-router><content></content></content></div><!-- /.conainer-fluid --></main></div><footer class="app-footer"><a href="http://ingeteam.com">Ingeteam</a> &copy; 2017 .</footer>`;
+let tpltf=function(){return _.template(tplt);}
+export {tplt as main }

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Webpack App Mi webpack</title>
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+   <% _.each(htmlWebpackPlugin.options.cssfiles,function(cssf){ %>
+    <link rel="stylesheet" type="text/css" href="<%= cssf %>"> 
+  <% }); %>
+    
+  </head>
+  <body>
+  <main class="mi-main"></main>
+  
+  <% console.log(htmlWebpackPlugin.options.include) %>
+  <% _.each(htmlWebpackPlugin.options.include,function(libjs){ %>
+    <script type="text/javascript" src="<%= libjs %>"></script>
+  <% }); %>
+  </body>
+  
+</html>
