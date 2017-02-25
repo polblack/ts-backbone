@@ -18,6 +18,11 @@ import { CommsSystemComponent } from "./components/system/comms.system.component
     bootstrap:[CommsInfoComponent],
     routes:[
         {
+            path:'commsinfo',
+            module:CommsInfoComponent,
+            ul:UserLevel.Basic
+        }  ,
+        {
             path:'system',
             module:CommsSystemComponent,
             ul:UserLevel.Basic
@@ -71,5 +76,7 @@ import { CommsSystemComponent } from "./components/system/comms.system.component
     ]
 })
 export class CommsModule{
-
+    Init(){
+        //RouterModule.instance.Navigate("commsinfo",null);
+    }
 }

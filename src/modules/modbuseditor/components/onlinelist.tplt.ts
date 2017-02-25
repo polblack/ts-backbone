@@ -1,4 +1,4 @@
-// tsc template file for: C:\ROOT\__Programacion\AAX_New\Git\fvwebclient\inverter\src\modules\modbuseditor\components\onlinelist.tplt.html
+// tsc template file for: /var/www/html/ts-backbone/src/modules/modbuseditor/components/onlinelist.tplt.html
 import * as _ from "underscore"
 let tplt=`<table class="table table-bordered table-sm"><thead class="thead-inverse"><tr><th width="30%">Name</th><th width="30%">Value</th><th>Magnitude</th></tr></thead> <%
         if(typeof(model.attributes.info)!='undefined'){

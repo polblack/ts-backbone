@@ -10,16 +10,25 @@ import { PieUi } from "../../../../backbonelib/ui/pie/pie.component";
 export class CommsSystemComponent extends ComponentBase {
     pie: PieUi;
     Init(){
-        debug.log("comms.info: Inicializado!");
+        debug.log("comms.system: Inicializado!");
        
     }
     events:any={
-        "model:change":'render'
+        "model:change":'render',
+        "click #reboot":'reboot',
+        "click #restore":'restore'
+    }
+    reboot():void{
+        alert('reboot');
+    }
+    restore():void{
+        alert('restore');
     }
     modelConfig:any={
         'url':'/system/info/memory'
     }
     onRender(){
+         
         this.pie = new PieUi({
             selector:"pie"
         });
@@ -30,7 +39,7 @@ export class CommsSystemComponent extends ComponentBase {
                 console.log(ret);
             }
         });
-        this.pie.render();
+        this.pie.render('pie');
        
     }
     

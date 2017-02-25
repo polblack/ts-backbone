@@ -30,21 +30,22 @@ export function module(params:ModuleParams)
         let iConstuctorModule:any = constructor;
         
         if(typeof(constructor['name']!='undefined')){
-            debug.log("module-decorator: init of "+constructor.name);
+            debug.log("module-decorator: init of "+constructor['name']);
         }
         let nconstructor = function()
         {
             this.NAME =(typeof(constructor['name'])!='undefined')?constructor['name']:"";
             if(typeof(constructor['name'])!='undefined'){
-                debug.log("module-decorator:init of iConstuctorModule for "+constructor.name);
+                debug.log("module-decorator:init of iConstuctorModule for "+constructor['name']);
             }
 
             let obj:any = new iConstuctorModule();
             obj.type="module";
             obj.components = new Array();
             obj.selector = "";
+            obj.loaded=false;
             if(typeof(constructor['name']!='undefined')){
-                obj.NAME=constructor.name;
+                obj.NAME=constructor['name'];
             }
             else{
                 obj.NAME='';
@@ -107,7 +108,7 @@ export function module(params:ModuleParams)
             obj.Init = function()
             {
                 if(typeof(constructor['name'])!='undefined'){
-                    debug.log("Launched Initialization on "+constructor.name);
+                    debug.log("Launched Initialization on "+constructor['name']);
                 }
                
                 ComponentFactory.GetInstance().render();

@@ -312,7 +312,7 @@ export class RouterModule{
                 {
                 
                     //Si es un módulo
-                    //if(iRItem.module['type']=='module')
+                     
                     {
                         
                         let ELNAME=( (typeof(iRItem.module['NAME'])!='undefined')?iRItem.module['NAME']:'');

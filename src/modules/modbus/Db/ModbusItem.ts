@@ -1,4 +1,4 @@
-import {UserLevel} from "../../ulevel/userlevelmodule";
+import {UserLevel} from "../../../backbonelib/ulevel/userlevelmodule";
 export interface ModbusItem{
     add:number;//Address
     start:number;//Start bit

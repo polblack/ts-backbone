@@ -85,7 +85,7 @@ export function component(params:componentparams)
            obj.selector = params.selector;
            obj.type="component";
             if(typeof(constructor['name'])!='undefined'){
-                obj.NAME=constructor.name;
+                obj.NAME=constructor['name'];
             }
            if(typeof(params.template)!='undefined')
            {
@@ -117,7 +117,7 @@ export function component(params:componentparams)
            
            //Redirection override
            let matchRedirect = document.URL.match(/\?redirect=(.*)/);
-           if(matchRedirect.length>0)
+           if(matchRedirect && (matchRedirect.length>0))
            {
                
                if(typeof( obj['modelConfig']['url'])!='undefined')
@@ -161,8 +161,8 @@ export function component(params:componentparams)
                 obj.view.render();
 
                 obj.view.trigger('onRender');
-                if(constructor.name)
-                debug.log("triggered on render de "+constructor.name );
+                if(typeof(constructor['name'])!='undefined')
+                debug.log("triggered on render de "+constructor['name'] );
            }
            
            
@@ -200,6 +200,12 @@ export abstract class ComponentBase{
             comp
         );
         return comp;
+    }
+    public AddComponent(comp:any)
+    {
+        this.components.push(
+            comp
+        );
     }
     
     abstract Init():void;

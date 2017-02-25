@@ -53,7 +53,7 @@ $(document).ready(function(){
     main.Init();
     
      
-    Backbone.history.start();
+    Backbone.history.start(); 
     debug.log("init: INITIALIZATION;");
     //NOTA: en caso de que tengamos un # se establece la ruta como ya iniciada, de manera que no se 
     //lanza la navegación a la página
