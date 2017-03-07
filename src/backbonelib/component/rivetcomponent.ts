@@ -28,4 +28,16 @@ if(typeof(rivets.adapters[':'])=='undefined')
 export function rcomponent(params:any)
 {
 
+
+
+}
+
+/**
+ * Property decorator for rivets (it will connect directly to)
+ * it will make accesible value on model and retrievable on class when it changes on model
+ */
+export function rinput(target: Object, propertyKey: string | symbol, parameterIndex: number)
+{
+    target['listenTo'](target['model'],'change:'+propertyKey.toString(),_.bind(function(){target[propertyKey]=target['model'].get(propertyKey);},target));
+    
 }
