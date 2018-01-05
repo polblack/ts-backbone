@@ -1,4 +1,6 @@
 
+import { IComponentWatcher, watchComponent } from '../component/component.watch';
+
 export interface IAttrDirective {
     execute(name: string, value: string,  domEl: any, component: any);
 }

@@ -12,6 +12,8 @@
   * @param event 
   */
  let applyWatcher = (component: any,watcher: Function) => ( property: string ) => {
+    if ( typeof(component[property]) === 'function') return;
+    if ( property == 'events') return ;
     Object.defineProperty(component, property, {
       
         set(value) {
