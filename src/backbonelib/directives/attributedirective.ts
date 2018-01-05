@@ -1,8 +1,8 @@
 
-import { IComponentWatcher, watchComponent } from '../component/component.watch';
+import { appendWatcher } from '../component/component.watch';
 
 export interface IAttrDirective {
-    watcher(value: any);
+    execute( domEl: any, component: any);
 }
 
 function componentWatcher(component: any) {
@@ -45,11 +45,16 @@ export class AttributeDirective implements IAttrDirective {
     private Apply( domEL: Element, component: any ) {
         let item = domEL.attributes.getNamedItem(this.name);
         if( item != null) {
-            this.appendWatcher(component,this.name,this.watcher);
+            appendWatcher(component,this.name,this.execute);
         }
     }
 
-    watcher(value: any) {
+    /**
+     * @description Execution made on watcher
+     * @param domEl 
+     * @param component 
+     */
+    execute( domEl: any, component: any)  {
 
     }
 
