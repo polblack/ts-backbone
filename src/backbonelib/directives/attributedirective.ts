@@ -2,8 +2,14 @@
 import { IComponentWatcher, watchComponent } from '../component/component.watch';
 
 export interface IAttrDirective {
-    execute(name: string, value: string,  domEl: any, component: any);
+    watcher(value: any);
 }
+
+function componentWatcher(component: any) {
+
+}
+
+
 
 /**
  * @description An Attribute directive changes the appearance or behavior of a DOM element.
@@ -12,6 +18,8 @@ export interface IAttrDirective {
 export class AttributeDirective implements IAttrDirective {
 
     name: string;
+
+
 
 
     /**
@@ -28,18 +36,20 @@ export class AttributeDirective implements IAttrDirective {
         }
     }
 
+     
+
     /**
      * @desc Applys Attribute to Dom element
      * @param domEL 
      */
-    Apply( domEL: Element, component: any ) {
+    private Apply( domEL: Element, component: any ) {
         let item = domEL.attributes.getNamedItem(this.name);
         if( item != null) {
-            this.execute( item.name, item.value, domEL, component);
+            this.appendWatcher(component,this.name,this.watcher);
         }
     }
 
-    execute( name: string, value: string, domEl: any, component: any) {
+    watcher(value: any) {
 
     }
 

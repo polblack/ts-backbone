@@ -1,5 +1,5 @@
 import { AttributeDirective }  from './attributedirective';
-import { IComponentWatcher, watchComponent } from '../component/component.watch';
+import { appendWatcher } from '../component/component.watch';
 
 
 let DomElVisible = (domEl) => (condition) => {
@@ -24,6 +24,6 @@ export class VisibleAttributeDirective extends AttributeDirective{
      * @param component 
      */
     execute( domEl: any, component: any) {
-        watchComponent(component, DomElVisible($(domEl)));
+        appendWatcher(component, this.name , DomElVisible($(domEl)));
     }
 }

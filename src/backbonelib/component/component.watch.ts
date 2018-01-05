@@ -1,25 +1,31 @@
 
 
- export interface IComponentWatcher {
+ export interface IobjWatcher {
      property: string,
      value: any
  }
 
  /**
-  * @description Applies whatcher to a property of component
-  * @param component 
+  * @description Applies whatcher to a property of obj
+  * @param obj 
   * @param watcher 
   * @param event 
   */
- let applyWatcher = (component: any,watcher: Function) => ( property: string ) => {
-    if ( typeof(component[property]) === 'function') return;
+ let applyWatcher = (obj: any) => ( property: string ) => {
+    if ( typeof(obj[property]) === 'function') return;
     if ( property == 'events') return ;
-    Object.defineProperty(component, property, {
+    if ( property == 'watchers') return ;
+    /// For property generate watchers
+    if (obj.watchers[property] === undefined ) {
+        obj.watchers[property] = [];
+     }
+    Object.defineProperty(obj, property, {
       
         set(value) {
-          component[property] = value;
-          //Watch action trigger
-          watcher(value);
+          obj[property] = value;
+          //Watch action execute
+          obj.watchers[property].map(function(f){ f(value);});
+          
         }
       });
  };
@@ -29,8 +35,22 @@
  *  string, boolean, array, ...
  *  will be watched to emit an event for directives or others
  */
-  export function watchComponent(component: any, watcher: any) {
-
-    component.getPropetyNames().map( applyWatcher(component, watcher));
+  export function watchobj(obj: any) {
+    if( obj.watchers === undefined ) {
+        obj.watchers = {};
+        obj.getPropetyNames().map( applyWatcher(obj));
+    }
 
  }
+
+ /**
+  * @description Appends a watcher to a property of a Object
+  */
+
+ export function appendWatcher( obj: any, property: string, watch: Function ) {
+    
+    ///Make Object whatched
+    watchobj(obj);
+    obj.watchers[property].push(watch);
+
+}
