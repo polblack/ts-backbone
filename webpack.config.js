@@ -1,15 +1,15 @@
 var path = require('path');
 var webpack = require('webpack');
-//var LoDashModuleLoader= require('loader/lodash-module-loader.js');
 
 module.exports = {
-  entry: './src/modbuseditor/editor.ts',
+  entry: './src/main.ts',
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'release'),
       sourceMapFilename: "[file].map", // string
       
   },
+ 
   resolve: {
     extensions: [ '.webpack.js', '.web.js', '.ts', '.js'],
     modules:['node_modules','bower_components']
@@ -34,8 +34,14 @@ module.exports = {
  
   module: {
     loaders: [
-      { test: /\.ts$/, loader: 'awesome-typescript-loader' }
-  //    { test: /\.tplt\.html$/, loader: 'lodash-module-loader' }
+      
+      { test: /\.ts$/, loader: 'awesome-typescript-loader' },
+      { test: /\.tplt$/, 
+        use:[{
+          loader: path.resolve('webpack/tplt-ts-loader.js'),
+          options: {}
+        }]
+      }
     ]
   },
    
