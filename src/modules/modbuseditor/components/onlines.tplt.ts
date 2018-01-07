@@ -1,5 +1,0 @@
-// tsc template file for: /var/www/html/ts-backbone/src/modules/modbuseditor/components/onlines.tplt.html
-import * as _ from "underscore"
-let tplt=`<div id="onlinecontent"><div class="row"><div class="col-sm-2 col-md-2"><button class="btn btn-success btn-sm" type="button" id="readonline">Read</button><div style="height: 20px"></div><div class="card"><div class="card-header">Categories</div><div class="card-block" style="padding:0"><div class="btn-group-vertical" style="width:100%"> <% _.each(model.attributes.categories,function(cat,i){ %> <button class="category btn btn-sm btn-secondary" id="<%= model.cid %>-cat-<%= i %>"> <%= cat %> </button> <% }); %> </div></div></div></div><div class="col-sm-10 col-md-10"><modbusonlineslist></modbusonlineslist></div></div></div>`;
-let tpltf=function(){return _.template(tplt);}
-export {tplt as onlines }

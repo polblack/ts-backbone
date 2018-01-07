@@ -8,9 +8,9 @@ module.exports = {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'release'),
       sourceMapFilename: "[file].map", // string
-      
+
   },
- 
+
   resolve: {
     extensions: [ '.webpack.js', '.web.js', '.ts', '.js'],
     modules:['node_modules','bower_components']
@@ -24,7 +24,7 @@ module.exports = {
     //  ]
 
   },
- 
+
    externals: {
     jquery: 'jQuery',
     backbone:'Backbone',
@@ -32,21 +32,26 @@ module.exports = {
   },
   // Enable sourcemaps for debugging webpack's output.
 //  devtool: "source-map",
- 
+
   module: {
     loaders: [
-      
+
+
+     
+     
+     
       { test: /\.ts$/, loader: 'awesome-typescript-loader' },
-      { test: /\.tplt$/, 
-        use:[{
-          loader: path.resolve('webpack/tplt-ts-loader.js'),
-          options: {}
-        }]
-      }
+      { test: /\.tplt\.html$/, loader: 'raw-loader' },
+      // { test: /\.tplt$/,
+      //   use:[{
+      //     loader: path.resolve('webpack/tplt-ts-loader.js'),
+      //     options: {}
+      //   }]
+      // },
     ]
   },
-   
 
 
-  
+
+
 };

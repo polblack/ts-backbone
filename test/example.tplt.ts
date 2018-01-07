@@ -1,0 +1,1 @@
+import * as _ from "underscore";let tplt = ``;let ftplt = function() { return _.template(tplt);};export { ftplt as example };

@@ -4,7 +4,7 @@
  */
 
 import { component } from "../../backbonelib/core";
-import { main } from "./view/main.tplt";
+import  main  from "./view/main.tplt.html";
 
 @component({
     templateUrl:main,

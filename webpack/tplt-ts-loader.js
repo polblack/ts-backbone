@@ -1,5 +1,6 @@
 import { getOptions, getCurrentRequest } from 'loader-utils';
 var fs = require('fs');
+var path = require('path');
 
 const schema = {
   type: 'object',
@@ -12,17 +13,19 @@ const schema = {
 
 export default function(source) {
   var callback = this.async();
-  const newName = this.options.entry.replace(/\.html/,'.ts');
+  
+  const filePath = path.resolve(this.options.context,this.options.entry);
+  const newName = filePath.replace(/\.html/,'.ts');
   const defaultModule = this.options.entry
       .replace(/\.tplt\.html$/,'')
       .split('/')
       .reverse()[0];
 
   source = source.replace(/\r\n/,''); /// Delete carrigage retur
-  
-  fs.readFile(this.options.entry, 'utf-8', function(err, filecontent) {
+ // return `export let data='${JSON.stringify(path.resolve(basePath,this.options.entry))}'`;
+  fs.readFile(filePath, 'utf-8', function(err, filecontent) {
     if(err) return callback(err);
-    var contentNew = 'import * as _ from \'underscore\';'+
+    var contentNew = 'import * as _ from "underscore";'+
       'let tplt = \`\`;'+
       'let ftplt = function() { return _.template(tplt);};'+
       'export { ftplt as '+defaultModule+' };'

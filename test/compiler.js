@@ -12,7 +12,7 @@ export default (fixture, options = {}) => {
     },
     module: {
       rules: [{
-        test: /\.tplt\.html$/,
+        test: /\.tplt$/,
         use: {
           loader: path.resolve(__dirname, '../webpack/tplt-ts-loader.js'),
           options: {
