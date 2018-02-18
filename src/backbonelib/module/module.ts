@@ -17,111 +17,85 @@ export interface ModuleParams{
     menus?:ModuleMenuEntry[]
 }
 
+class BBModule {
+
+    public name: string;
+    public type: string = 'module';
+    public components: any[] = [];
+
+    public loaded = false;
+    public menus :MenuUi[] = [];
+    public routes: RouteInsert[] = [];
+    private bootstrap: any;
+    public selector: string;
+
+    
+
+    public constructor(params:ModuleParams) {
+        if(params['menus']!==undefined) {
+            for(let imenu of params['menus'])
+            {
+                let menu:MenuUi = new MenuUi(imenu.opts);
+                for(let item of imenu.items)
+                {
+                    menu.addItem(item);
+                }
+                this.menus.push(menu);
+            }
+        }
+        if( params['routes'] !== undefined)
+        {
+            //Adds current routes to router including BASE PATH of current router
+            RouterModule.instance.AddRouters(params.routes);
+
+        }
+
+        if(params['bootstrap'] !== undefined)
+        {
+            this.selector = params.bootstrap[0].selector;
+        }
+
+        
+    }
+
+    public Run() {
+        this._Init();
+        if(this['Init'] !== undefined) {
+            this['Init']();
+        }
+    }
+
+    public _Init(){
+        ComponentFactory.GetInstance().render();
+        if(this.menus.length>0){
+            for(let imenu of this.menus)
+            {
+                imenu.render();
+            }
+        }
+    }
+
+     
+
+    private setBootstrapComp(boot: any) {
+        const newEl = new boot();
+        ComponentFactory.GetInstance().load(newEl.selector,newEl);
+    }
+
+}
+
 /**
  * Decorator
  */
 export function module(params:ModuleParams)
 { 
     ///Registramos el selector para que se generae la planta
-    debug.log("module-decorator: parametros de module");
-    debug.mlog("module-decorator",params);
-    let iParams:any = params;
+ 
     return function(constructor:Function){
         let iConstuctorModule:any = constructor;
-        
-        if(typeof(constructor['name']!='undefined')){
-            debug.log("module-decorator: init of "+constructor['name']);
-        }
-        let nconstructor = function()
-        {
-            this.NAME =(typeof(constructor['name'])!='undefined')?constructor['name']:"";
-            if(typeof(constructor['name'])!='undefined'){
-                debug.log("module-decorator:init of iConstuctorModule for "+constructor['name']);
-            }
-
-            let obj:any = new iConstuctorModule();
-            obj.type="module";
-            obj.components = new Array();
-            obj.selector = "";
-            obj.loaded=false;
-            if(typeof(constructor['name']!='undefined')){
-                obj.NAME=constructor['name'];
-            }
-            else{
-                obj.NAME='';
-            }
-            obj.menus  = [];
-            /** Menu */
-            if(typeof(params['menus'])!='undefined')
-            {
-                for(let imenu of params['menus'])
-                {
-                    let menu:MenuUi = new MenuUi(imenu.opts);
-                    for(let item of imenu.items)
-                    {
-                        menu.addItem(item);
-                    }
-                    obj.menus.push(menu);
-                }
-               
-            }
-           /** Routing **/
-            if(typeof(params['routes'])!='undefined')
-            {
-                //Adds current routes to router including BASE PATH of current router
-                RouterModule.instance.AddRouters(params.routes);
-
-            }
-            ///Modulos insertados en el bootstrap del Modulo
-
-            /** Bootstrap components */
-            if(typeof(iParams['bootstrap'])!='undefined')
-            {
-                for(let modcomp of iParams['bootstrap'])
-                {
-                   let newEl = new modcomp();
-                   if( obj.selector==""){  
-                        obj.selector=newEl['selector'];
-                   }
-                   if(newEl.type=="component"){
-                        
-                        obj.components.push(newEl);
-                        ComponentFactory.GetInstance().load(newEl.selector,newEl);
-                   }
-                   else if(newEl.type=="module")
-                   {
-                       //Es un nuevo módulo, de manera que 
-                       //No hacemos nada??
-                       debug.log("es un nuevo módulo...");
-                   }
-                   //Si el tipo es un módulo, hay que 
-                }
-            }
-
-            
-            let init = typeof(obj['Init'])=='undefined'?null:obj['Init'];
-            //Inicio de Modulo
-            obj.Init = function()
-            {
-                if(typeof(constructor['name'])!='undefined'){
-                    debug.log("Launched Initialization on "+constructor['name']);
-                }
-               
-                ComponentFactory.GetInstance().render();
-                if(obj.menus.length>0){
-                    for(let imenu of obj.menus)
-                    {
-                        imenu.render();
-                    }
-                    
-                }
-                if(init!=null) init();
-            }
-            return obj;
-        }
-         
-        return <any>nconstructor;
-
+        constructor.prototype = new BBModule(params);
+        constructor.prototype.constructor = constructor;
+        return constructor;
 
     }
    
