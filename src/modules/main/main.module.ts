@@ -10,10 +10,9 @@ import * as backbone  from "backbone";
 import { MainComponent } from "./main.component";
 import { module } from "../../backbonelib/core";
 import { DashboardComponent } from "../dashboard/dashboard.component";
-import { ModbusEditorModule } from "../modbuseditor/modbuseditormodule";
+
 import { UserLevel }  from "../../backbonelib/ulevel/userlevelmodule";
 import { RouterModule } from "../../backbonelib/router/router";
-import { CommsModule } from "../comms/comms.module"
 import { debug } from "../../backbonelib/log/debug";
 
 @module({
@@ -24,17 +23,7 @@ import { debug } from "../../backbonelib/log/debug";
             module: DashboardComponent,
             ul:UserLevel.Basic
         },
-        {
-            path: "inverter",
-            module: ModbusEditorModule,
-            ul:UserLevel.Basic
-        },
-        {
-            path:"comms",
-            module:CommsModule,
-            ul:UserLevel.Basic
-
-        }
+       
     ],
     
     menus:[{
@@ -79,7 +68,7 @@ import { debug } from "../../backbonelib/log/debug";
 class MainModule{
     Init():void{
         debug.log("mainmodule:Main Module Initialized");
-        RouterModule.instance.Navigate("dashboard",null);
+        //RouterModule.instance.Navigate("dashboard",null);
     }
 }
 

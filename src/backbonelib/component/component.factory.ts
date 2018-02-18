@@ -1,4 +1,3 @@
-import { ModbusItemsDictionary } from '../../modules/modbus/inverterdefs';
 import * as Backbone from "backbone";
 import * as _ from "underscore";
 import * as $ from "jquery";
@@ -21,6 +20,11 @@ interface ComponentItem{
 
 class ComponentFactory{
 
+
+    items : ComponentItem[]=[];
+    private finder: any;
+
+
     public static instance:ComponentFactory;
     public static GetInstance():ComponentFactory{
         if(ComponentFactory.instance == undefined)
@@ -36,9 +40,13 @@ class ComponentFactory{
        
         
     }
-    items : ComponentItem[]=[];
     
-    public   register(tag:string,constr:any) :void{
+    /**
+     * @description Registers in factory a component
+     * @param tag 
+     * @param constr 
+     */
+    public  register(tag:string,constr:any) :void{
         if(this.findIndex(tag)==-1)
         {
             debug.log("component.factory.register:"+tag);
@@ -52,7 +60,14 @@ class ComponentFactory{
             debug.log("component.factory.register: tags length: "+this.items.length);
         }
     }
-    public   load(tag:string,constructor:any) :void{
+
+    
+    /**
+     * @description Loads a tag with a constructor
+     * @param tag 
+     * @param constructor 
+     */
+    public load(tag:string,constructor:any) :void{
         debug.log("component.factory: loaded module for "+tag);
         // debug.log("loaded "+constructor);
         let index = _.findIndex(this.items,function(d){return d.stag==tag;});
@@ -70,41 +85,42 @@ class ComponentFactory{
     /**
      * @description Searchs for tags and renders Components
      */
-    public render():void {
-        
-        for(let item of this.items)
-        {
-            
-            if($(item.stag).length!=0)
-            {
-                // debug.log("encontrado!");
-                let container=$(item.stag);
-                //Si el contenedor está ya renderizado no se le hace caso.
-                debug.log("Component Factory: Contenido del container "+item.stag+ " es "+(container.html().trim()==""?"Vacio":"LLeno"));
-                if(container.html().trim()!="") continue;
-               
-                
-                
-                {
-                    if(item.constrcted==null)
-                    {
-                       console.log(item.constrctr);
-                        //Lo construimos
-                        item.constrcted=new item.constrctr();
-                        
-                    }
-                    debug.log("component.factory:Rendered By factory "+item.stag);
-                    container.append('<div id="component-'+item.stag+'"></div>');
-                    let inCont = container.find('div#component-'+item.stag);
-                    item.constrcted.render(inCont);
-                    if(typeof(item.constrcted['Init'])!="undefined")
-                    {
-                        item.constrcted['Init']();
-                    }
-                    item.loaded=true;
-                }
+    public render(component?: any):void {
+        // If component exists whe are trying to render SUB components
+        if( component !== undefined ) {
+            this.finder = component.view.$el;
+        } else {
+            this.finder = null;
+        } 
+
+        for(let item of this.items) {
+            const retComp = this.RenderItem(item,(this.finder!==null)?
+                this.finder(item.stag):$(item.stag)
+            );
+            if( component !== undefined) {
+                /// Append child components
+                component.components.push(retComp);
             }
         }
+
+    }
+
+    /**
+     * @description Finds item
+     */
+
+    private RenderItem(item: ComponentItem, onTag?: any) {
+        if(onTag.length!=0)
+        {
+            const component = new item.constrctr();
+            // Render on existing tag or on a component
+            component.render(onTag);
+            if ( component['Init'] !== undefined) { component.Init();}
+
+            // Debemos ver si hay más componentes Hijos en este componente
+            return component;
+        }
+        return null;
     }
     
 }

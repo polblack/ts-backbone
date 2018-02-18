@@ -72,7 +72,6 @@ export function module(params:ModuleParams)
                 RouterModule.instance.AddRouters(params.routes);
 
             }
-            debug.mlog("module-decorator",iParams);
             ///Modulos insertados en el bootstrap del Modulo
 
             /** Bootstrap components */
@@ -100,9 +99,6 @@ export function module(params:ModuleParams)
             }
 
             
-            
-            
-            debug.log("module-decorator: el módulo "+ obj.NAME+" tiene funcion init..."+ ((typeof(obj['Init']))));
             let init = typeof(obj['Init'])=='undefined'?null:obj['Init'];
             //Inicio de Modulo
             obj.Init = function()
