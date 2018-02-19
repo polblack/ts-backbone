@@ -65,7 +65,7 @@ import { debug } from "../../backbonelib/log/debug";
     ]
     
 })
-class MainModule{
+class MainModule {
     Init():void{
         debug.log("mainmodule:Main Module Initialized");
         //RouterModule.instance.Navigate("dashboard",null);

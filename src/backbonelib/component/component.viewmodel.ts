@@ -87,17 +87,20 @@ export function CreateView(mainObj: any,
 export class InnerComponent{
 
     private eventHandler = {};
+    private components: InnerComponent[] = [];
     
     public model: BBModel;
     public view: Backbone.View<BBModel>;
 
     private OwnerComp = null;
+    public selector;
 
     constructor(opts: ComponentOptions, parent?: any) {
-        console.log("Create Inner Component");
+        
         if(parent !== undefined) {
             this.OwnerComp = parent;
         }
+        this.selector = opts.selector;
         // Create model
         this.CreateModel(opts);
         this.view = this.CreateView(parent, this.model, opts);
@@ -192,5 +195,10 @@ export class InnerComponent{
 
     render() {
         this.view.render();
+    }
+
+    Destroy() {
+        this.components.map((c)=>{ c.Destroy.call(c); });
+        this.view.remove();
     }
 }

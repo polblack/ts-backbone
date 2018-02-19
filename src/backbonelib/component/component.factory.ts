@@ -49,7 +49,7 @@ class ComponentFactory{
     public  register(tag:string,constr:any) :void{
         if(this.findIndex(tag)==-1)
         {
-            debug.log("component.factory.register:"+tag);
+            // debug.log("component.factory.register:"+tag);
             this.items.push({
                 stag:tag,
                 constrctr:constr,
@@ -57,7 +57,7 @@ class ComponentFactory{
                 loaded:false
             });
              
-            debug.log("component.factory.register: tags length: "+this.items.length);
+            // debug.log("component.factory.register: tags length: "+this.items.length);
         }
     }
 
@@ -68,10 +68,10 @@ class ComponentFactory{
      * @param constructor 
      */
     public load(tag:string,constructor:any) :void{
-        debug.log("component.factory: loaded module for "+tag);
-        // debug.log("loaded "+constructor);
+        // debug.log("component.factory: loaded module for "+tag);
+        // // debug.log("loaded "+constructor);
         let index = _.findIndex(this.items,function(d){return d.stag==tag;});
-         debug.log("component.factory: index "+index);
+         // debug.log("component.factory: index "+index);
         if(index!=-1)
         {
             

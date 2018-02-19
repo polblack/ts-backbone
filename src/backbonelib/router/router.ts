@@ -56,7 +56,7 @@ export class RouterModule{
 
     //Saved routes
     iRoutes:RouteInsert[]=[];
-    //Route Tree
+    // Current Route Tree
     iRouteTree:RouteTreeItem[]=[];
 
     //Backbone Router
@@ -68,7 +68,7 @@ export class RouterModule{
 
     public static SetBackboneRouting()
     {
-        debug.log("router: Set backbone route");
+        //debug.log("router: Set backbone route");
         RouterModule.instance.isBackboneRouted=true;
     }
     
@@ -99,8 +99,8 @@ export class RouterModule{
         {
             this.SetupBackboneRoutes(routes);
         }
-        debug.log("router: Added Routesrs"); 
-        debug.mlog("router",this.iRouteTree);
+        //debug.log("router: Added Routesrs"); 
+        //debug.mlog("router",this.iRouteTree);
     }
     /**
      * adds a route to tree
@@ -121,8 +121,6 @@ export class RouterModule{
             }
             else{
                 this.AddRouteRecursive(route,this.iRouteTree);
-                
-                
             }
     }
 
@@ -140,10 +138,10 @@ export class RouterModule{
             let newbasep=[];
             for(let j=0; j < i+1; j++){newbasep.push(basep[j]);}
             
-            debug.log("router: generating route "+newbasep.join('/'));
+            //debug.log("router: generating route "+newbasep.join('/'));
             let parent = this.findParentNode(basep,Items);
             if(parent==null){
-                debug.log("router: has no parent "+newbasep.join('/'));
+                //debug.log("router: has no parent "+newbasep.join('/'));
                 //Generamos un padre VACIO!
                 Items.push({
                     basepath:newbasep,
@@ -152,12 +150,12 @@ export class RouterModule{
                     childs:new Array<RouteTreeItem>(),
                     ul:route.ul
                 });
-                debug.log("router: generated new Items");
-                debug.mlog("router",Items);
+                //debug.log("router: generated new Items");
+                //debug.mlog("router",Items);
             }
             else{
-                debug.log("router: YEAH has parent "+newbasep.join('/'));
-                debug.mlog("router",parent);
+                //debug.log("router: YEAH has parent "+newbasep.join('/'));
+                //debug.mlog("router",parent);
                 parent.childs.push({
                     basepath:route.path.split('/'),
                     moduledef:route.module,
@@ -210,19 +208,18 @@ export class RouterModule{
      */
     public Navigate(route:string,options:any)
     {
-       
+        
+        
         if(this.isBackboneRouted)
         {
-            debug.log("router: backbone routed to "+route);
-            debug.mlog("router",this.iRouteTree);
             this.bbroutes.navigate(route,{trigger:true, replace: true});
         }
         else{
             //Seek of last route and see if it has parents to load
             //Params will be given by /(key):param
+            console.log(`Navigate to ${route}`);
             this.mCurrRoute = route;
             let routes = route.split('/'); 
-            debug.log("router: Navigating to "+route);
             this._navigate(routes,this.iRouteTree,options);
         }
         
@@ -241,10 +238,9 @@ export class RouterModule{
         {
 
             base.push(routes[i]);
-            debug.mlog("router",iroutes);
-            debug.log("router: Finding route "+base.join('/'));
+            
             let Node = this._findNode(base.join('/'),iroutes);
-            debug.mlog("router",Node);
+            
             //Seguimos hasta el siguiente módulo
             this._navigateTreeItem(Node,options);
         }
@@ -255,7 +251,7 @@ export class RouterModule{
     private _findNode(path:string,Items:Array<RouteTreeItem>):RouteTreeItem
     {
         let basepath = path.split('/');
-        debug.log('router: _find Node '+path);   
+        //debug.log('router: _find Node '+path);   
         
         for(let item of Items)
         {
@@ -265,21 +261,21 @@ export class RouterModule{
                 for(let i=0; i < item.basepath.length;i++){
                     isParent = isParent && item.basepath[i]==basepath[i];
                 }
-                debug.log('router: is parent ?'+(isParent?"Yes":"no"));
-                debug.mlog('router',item);
+                //debug.log('router: is parent ?'+(isParent?"Yes":"no"));
+                //debug.mlog('router',item);
                 if(isParent)
                 {
                    return this._findNode(path,item.childs);
                 }
             } 
-            debug.log("router: item.basepath.length "+item.basepath.length+" == basepath.length "+basepath.length);
+            //debug.log("router: item.basepath.length "+item.basepath.length+" == basepath.length "+basepath.length);
             if(item.basepath.length == basepath.length)
             {
-                debug.log("router:lengths are equal!");
+                //debug.log("router:lengths are equal!");
                   if(item.basepath.join('.')==basepath.join('.'))
                   {
                       //Is the same path return item;
-                      debug.log("router: found tree item");
+                      //debug.log("router: found tree item");
                       return item;
                   }  
             }
@@ -291,10 +287,12 @@ export class RouterModule{
      */
     protected _navigateTreeItem(iRItem:RouteTreeItem,options:any)
     {
-        debug.log("router: navigate to tree item");
+        //debug.log("router: navigate to tree item");
         debug.mlog("router",iRItem);
         //This is the router item
-        if(typeof(iRItem.module)!='undefined')
+
+        
+        if( iRItem.module !== undefined )
         {
             //Tenemos un módulo, que hay que generar (si está generado no se genera)
             if(iRItem.module==null)
@@ -306,30 +304,32 @@ export class RouterModule{
             if(iRItem.module!=null)
             {
                 debug.log("router: launched module "+(iRItem.module['NAME']));
-                debug.mlog("router",iRItem.module);
+                //debug.mlog("router",iRItem.module);
 
                 if(typeof(iRItem.module['type'])!='undefined')
                 {
                 
                     //Si es un módulo
-                     
+                      
                     {
+                        console.log(iRItem.module);   
+                        console.log(`Module selector::: ${iRItem.module.selector}`);
                         
                         let ELNAME=( (typeof(iRItem.module['NAME'])!='undefined')?iRItem.module['NAME']:'');
                         
                         //Launched an generated module
-                        debug.log("router: Launched and generated  "+iRItem.module['type']+' '+ ELNAME);
+                        //debug.log("router: Launched and generated  "+iRItem.module['type']+' '+ ELNAME);
 
-                        debug.log("router: selector for module "+iRItem.module['NAME']+' is '+iRItem.module['selector']);
+                        //debug.log("router: selector for module "+iRItem.module['NAME']+' is '+iRItem.module['selector']);
                         //Insertamos el selector en el tag del router
-                        debug.log("router: hay selector?"+$("backbone-router").length);
+                        //debug.log("router: hay selector?"+$("backbone-router").length);
                         $("backbone-router").html('<'+iRItem.module['selector']+'></'+iRItem.module['selector']+'>');
                         ///Busca los nuevos elementos y los genera.
                         ComponentFactory.GetInstance().render();
                         
-                        debug.log("router: Init of "+iRItem.module['type']+ " " + iRItem.module['NAME']);
+                        //debug.log("router: Init of "+iRItem.module['type']+ " " + iRItem.module['NAME']);
                          
-                        iRItem.module['Init']();
+                        
                     }
                     // if(iRItem.module['type']=='module'){
                     //     ComponentFactory.GetInstance().render();
@@ -391,16 +391,12 @@ export class RouterModule{
     SetupBackboneRoutes(routes:RouteInsert[])
     {
         let $this = this;
-         
         for(let route of routes)
         {
             let name = route.path.replace(this._routeParams(route.path.split('/')).join('/'),'');
             this.bbroutes.route(route.path,name,_.bind(function(){
                  let routes = route.path.split('/'); 
-                     debug.log("router: Navigating to route");
-                     debug.mlog("router",this.iRouteTree);
-                        
-                     $this._navigate(routes,this.iRouteTree,{});
+                     $this._navigate.call($this, routes,this.iRouteTree,{});
 
             },this));
         }

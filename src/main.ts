@@ -4,7 +4,7 @@ import { debug } from "./backbonelib/log/debug";
 
 import MainModule from "./modules/main/main.module";
 import * as _ from "underscore";
-import { module } from "./backbonelib/core";
+import { module, IModule } from "./backbonelib/core";
 import { UserLevel } from "./backbonelib/ulevel/userlevelmodule";
 import { RouterModule } from "./backbonelib/router/router";
 
@@ -41,16 +41,27 @@ import { NavigatorConsole } from "./backbonelib/log/navigator.console";
          
     ]
 })
-class BootstrapModule{
-    Init(){
-        debug.log("bootstrap: Initialized");
+class BootstrapModule {
+    constructor() {
+        
     }
+    public Init() {
+        console.log("bootstrap: Initialized");
+    }
+ 
+
+     
 }
-let main = new BootstrapModule();
+
+const main = new BootstrapModule();
+
+console.log(main.constructor);
+
 $(document).ready(function(){
-   
     
-    main.Init();
+    
+    main['Run']();
+    // main.Init();
     
      
     Backbone.history.start(); 

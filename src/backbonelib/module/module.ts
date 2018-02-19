@@ -26,12 +26,15 @@ class BBModule {
     public loaded = false;
     public menus :MenuUi[] = [];
     public routes: RouteInsert[] = [];
-    private bootstrap: any;
+    private bootstrap: any[] = [];
     public selector: string;
 
     
 
     public constructor(params:ModuleParams) {
+
+        console.log("constructor for module PARAMS");
+        console.log(params);
         if(params['menus']!==undefined) {
             for(let imenu of params['menus'])
             {
@@ -43,6 +46,7 @@ class BBModule {
                 this.menus.push(menu);
             }
         }
+
         if( params['routes'] !== undefined)
         {
             //Adds current routes to router including BASE PATH of current router
@@ -52,20 +56,32 @@ class BBModule {
 
         if(params['bootstrap'] !== undefined)
         {
-            this.selector = params.bootstrap[0].selector;
+            this.bootstrap = params.bootstrap;
+            console.log("selector on bootstrap::"+params.bootstrap[0].prototype.selector);
+            this.selector = params.bootstrap[0].prototype.selector;
         }
-
+        console.log("Module constructor end");
         
+       
     }
+ 
 
+    /**
+     * @description Runs Module
+     */
     public Run() {
         this._Init();
+        console.log(this['Init']);
         if(this['Init'] !== undefined) {
             this['Init']();
         }
     }
 
+    /** 
+     * @description Initializes module
+    */
     public _Init(){
+       
         ComponentFactory.GetInstance().render();
         if(this.menus.length>0){
             for(let imenu of this.menus)
@@ -78,26 +94,36 @@ class BBModule {
      
 
     private setBootstrapComp(boot: any) {
+        console.log("setting bootstrap for");
+        console.log(boot);
         const newEl = new boot();
         ComponentFactory.GetInstance().load(newEl.selector,newEl);
     }
 
+    public Destroy() {
+        this.components.map((c)=>{ c.Destroy();});
+    }
+
 }
+
+
+
 
 /**
  * Decorator
  */
 export function module(params:ModuleParams)
 { 
-    ///Registramos el selector para que se generae la planta
+    // Generates a module extended Module class
  
-    return function(constructor:Function){
-        let iConstuctorModule:any = constructor;
-        constructor.prototype = new BBModule(params);
-        constructor.prototype.constructor = constructor;
-        return constructor;
-
+    return function(constrct:any){
+        const BModule =  new BBModule(params);
+        constrct.prototype = _.extend(BModule, constrct.prototype);
+        constrct.prototype.NAME = constrct['name'] === undefined ? 'unknown':constrct.name;
+        constrct.constructor = constrct;
+        return <any> constrct;
     }
    
 }
+
  

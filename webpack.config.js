@@ -29,7 +29,7 @@ module.exports = {
     underscore:'_'
   },
   // Enable sourcemaps for debugging webpack's output.
-//  devtool: "source-map",
+  devtool: "source-map",
 
   module: {
     // loaders: [

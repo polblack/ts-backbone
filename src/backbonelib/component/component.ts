@@ -17,16 +17,15 @@ function extend(ChildClass, ParentClass) {
 }
 
 /**
- * Decorator
+ * Component Decorator
  */
 export function component(params:componentparams)
-{ 
-    ///Registramos el selector para que se generae la planta
-    //ComponentFactory.GetInstance().register(params.selector);
+{  
     return function(constructor:Function){
        let iConstuctorComponent:any = constructor;
        const owner = new InnerComponent(params);
-       constructor.prototype = owner;
+       constructor.prototype = _.extend(owner, constructor.prototype);
+       
        constructor.prototype.constructor = constructor;
        
        /// Register constructor in factory
