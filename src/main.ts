@@ -4,7 +4,7 @@ import { debug } from "./backbonelib/log/debug";
 
 import MainModule from "./modules/main/main.module";
 import * as _ from "underscore";
-import { module, IModule } from "./backbonelib/core";
+import { module } from "./backbonelib/core";
 import { UserLevel } from "./backbonelib/ulevel/userlevelmodule";
 import { RouterModule } from "./backbonelib/router/router";
 
@@ -34,7 +34,7 @@ import { NavigatorConsole } from "./backbonelib/log/navigator.console";
     routes:[
         
         {
-            path:"home",
+            path:"",
             module:MainModule,
             ul:UserLevel.Basic
         } 
@@ -42,42 +42,27 @@ import { NavigatorConsole } from "./backbonelib/log/navigator.console";
     ]
 })
 class BootstrapModule {
-    constructor() {
-        
-    }
-    public Init() {
-        console.log("bootstrap: Initialized");
-    }
- 
-
-     
 }
 
 const main = new BootstrapModule();
 
-console.log(main.constructor);
+
 
 $(document).ready(function(){
     
     
-    main['Run']();
-    // main.Init();
-    
-     
+
     Backbone.history.start(); 
-    debug.log("init: INITIALIZATION;");
-    //NOTA: en caso de que tengamos un # se establece la ruta como ya iniciada, de manera que no se 
-    //lanza la navegación a la página
+
     let NextPath = "";
     if(document.location.href.match('#')){
        NextPath = /#(.*)$/.exec(document.location.href)[1];
-    } 
-    
-    RouterModule.instance.Navigate("home",null);
-    if(NextPath!='')
-    {
-        RouterModule.instance.Navigate(NextPath,null);
+    } else {
+       NextPath = '#dashboard';
     }
+
+    RouterModule.instance.Navigate(NextPath,null);
+    
      
 });
 

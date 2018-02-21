@@ -85,24 +85,29 @@ class ComponentFactory{
     /**
      * @description Searchs for tags and renders Components
      */
-    public render(component?: any):void {
+    public render(moduleComp?: any, count?:number):void {
+        
         // If component exists whe are trying to render SUB components
-        if( component !== undefined ) {
-            this.finder = component.view.$el;
+        count = (count === undefined )? 0 : count;
+        
+        if(count > 50) return; //Avoid infinite recursion
+        if( moduleComp !== undefined ) {
+            this.finder = moduleComp;
         } else {
             this.finder = null;
         } 
-
         for(let item of this.items) {
-            const retComp = this.RenderItem(item,(this.finder!==null)?
-                this.finder(item.stag):$(item.stag)
-            );
-            if( component !== undefined) {
-                /// Append child components
-                component.components.push(retComp);
+            const retComp = this.RenderItem(item,
+                (this.finder!==null)?
+                    this.finder.find(item.stag):
+                    $(item.stag)
+                );
+            if ((moduleComp!== undefined) && (retComp !== false)) {
+                // Recursive rendering
+                this.render(retComp.view.$el,count+1);
             }
         }
-
+        
     }
 
     /**
@@ -110,7 +115,8 @@ class ComponentFactory{
      */
 
     private RenderItem(item: ComponentItem, onTag?: any) {
-        if(onTag.length!=0)
+        
+        if(onTag.length !== 0)
         {
             const component = new item.constrctr();
             // Render on existing tag or on a component
@@ -120,7 +126,7 @@ class ComponentFactory{
             // Debemos ver si hay más componentes Hijos en este componente
             return component;
         }
-        return null;
+        return false;
     }
     
 }

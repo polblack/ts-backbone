@@ -193,7 +193,10 @@ export class InnerComponent{
 
     }
 
-    render() {
+    render(domEl?: any) {
+        if(domEl !== undefined) {
+            this.view.setElement(domEl);
+        }
         this.view.render();
     }
 

@@ -2,7 +2,8 @@
 export interface componentparams{
     template?:string,
     templateUrl?:any,
-    selector:string 
+    selector:string,
+    components?: any[]
 }
 
 /**

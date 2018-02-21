@@ -74,10 +74,7 @@ export interface MenuOptions{
 
         private SelectRoute(route:string)
         { 
-            debug.log("menu.ui: selected route "+route);
-            
             $(this.options.selector).find('a').each(function(el){
-                
                 let $el=$(this);
                 let urlP=$el.attr('data-bb-url');
                 
@@ -105,7 +102,6 @@ export interface MenuOptions{
         public render()
         {
         
-           debug.log("menu.ui: render of selector " +this.options.selector + " length"+ $(this.options.selector).length);
            return $(this.options.selector).html( this._render());
         }
 

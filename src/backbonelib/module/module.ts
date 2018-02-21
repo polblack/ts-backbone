@@ -4,6 +4,7 @@ import ComponentFactory from "../component/component.factory";
 import { RouteInsert , RouterModule } from "../router/router";
 import { debug } from "../log/debug";
 import { MenuOptions,MenuItem,MenuUi } from "../ui/menu/menu.ui";
+import { UserLevel } from "../core";
 
 
 interface ModuleMenuEntry{
@@ -33,8 +34,7 @@ class BBModule {
 
     public constructor(params:ModuleParams) {
 
-        console.log("constructor for module PARAMS");
-        console.log(params);
+      
         if(params['menus']!==undefined) {
             for(let imenu of params['menus'])
             {
@@ -47,20 +47,13 @@ class BBModule {
             }
         }
 
-        if( params['routes'] !== undefined)
-        {
-            //Adds current routes to router including BASE PATH of current router
-            RouterModule.instance.AddRouters(params.routes);
-
-        }
+       
 
         if(params['bootstrap'] !== undefined)
         {
             this.bootstrap = params.bootstrap;
-            console.log("selector on bootstrap::"+params.bootstrap[0].prototype.selector);
             this.selector = params.bootstrap[0].prototype.selector;
         }
-        console.log("Module constructor end");
         
        
     }
@@ -71,7 +64,6 @@ class BBModule {
      */
     public Run() {
         this._Init();
-        console.log(this['Init']);
         if(this['Init'] !== undefined) {
             this['Init']();
         }
@@ -121,6 +113,13 @@ export function module(params:ModuleParams)
         constrct.prototype = _.extend(BModule, constrct.prototype);
         constrct.prototype.NAME = constrct['name'] === undefined ? 'unknown':constrct.name;
         constrct.constructor = constrct;
+        if( params['routes'] !== undefined)
+        {
+            //Adds current routes to router including BASE PATH of current router
+            RouterModule.instance.AddRouters(params.routes);
+
+        }
+      
         return <any> constrct;
     }
    
